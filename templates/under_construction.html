@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_name }} - Support</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <div class="main-content text-center py-10">
+        <h1 class="text-4xl font-bold mb-4">{{ page_name }}</h1>
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
+            <h2 class="text-2xl font-semibold mb-4">¿No tienes Telegram?</h2>
+            <p class="text-lg mb-4">Para contactar con soporte, necesitas tener Telegram instalado.</p>
+            <div class="space-y-4">
+                <a href="https://telegram.org/dl" target="_blank" class="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 w-full text-center text-xl">
+                    Descargar Telegram
+                </a>
+                <div class="mt-8">
+                    <p class="text-lg mb-4">¿Ya tienes Telegram?</p>
+                    <a href="https://t.me/Mysoportebot?start=welcome" class="inline-block bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 w-full text-center text-xl">
+                        Iniciar Chat con Soporte
+                    </a>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        Al hacer clic en "Iniciar Chat con Soporte", serás redirigido a nuestro bot de soporte en Telegram
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const supportLinks = document.querySelectorAll('a[href*="Mysoportebot"]');
+            supportLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Try to open Telegram app first
+                    window.location.href = 'tg://resolve?domain=Mysoportebot&start=welcome';
+                    
+                    // If Telegram app is not installed, open in browser after a short delay
+                    setTimeout(function() {
+                        window.location.href = 'https://t.me/Mysoportebot?start=welcome';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

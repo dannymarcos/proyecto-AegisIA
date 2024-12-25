@@ -1,0 +1,34 @@
+<nav class="desktop-nav">
+    <ul>
+      <li class="relative group">
+        <a href="#" class="desktop-nav-link" id="menu-button" data-translate="home">{{ get_translated_text('home', session.get('language', 'en')) }}</a>
+        <div class="hidden group-hover:block absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl py-2 border border-gray-200" style="z-index: 1000;">
+          <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="home">{{ get_translated_text('home', session.get('language', 'en')) }}</a>
+          <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">{{ get_translated_text('profile', session.get('language', 'en')) }}</a>
+          <a href="https://t.me/Mysoportebot?start=welcome" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="support">{{ get_translated_text('support', session.get('language', 'en')) }}</a>
+          <a href="/classes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="teleclasses">{{ get_translated_text('teleclasses', session.get('language', 'en')) }}</a>
+          <a href="/finances" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="finances">{{ get_translated_text('finances', session.get('language', 'en')) }}</a>
+          <div class="relative group">
+            <div class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('settings', session.get('language', 'en')) }}</div>
+            <div class="hidden group-hover:block absolute left-full top-0 w-48 bg-white rounded-lg shadow-xl py-2 border border-gray-200">
+              <div class="px-4 py-2">
+                <h3 class="font-semibold mb-2">{{ get_translated_text('language', session.get('language', 'en')) }}</h3>
+                <select class="w-full p-1 border rounded" id="language-select">
+                  <option value="es">Español</option>
+                  <option value="en">English</option>
+                  <option value="pt">Português</option>
+                  <option value="fr">Français</option>
+                </select>
+              </div>
+              <div class="px-4 py-2 border-t">
+                <h3 class="font-semibold mb-2">{{ get_translated_text('security', session.get('language', 'en')) }}</h3>
+                <a href="/settings/password" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('change_password', session.get('language', 'en')) }}</a>
+                <a href="/settings/wallet" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('withdrawal_wallet', session.get('language', 'en')) }}</a>
+                <a href="/settings/2fa" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('enable_2fa', session.get('language', 'en')) }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>

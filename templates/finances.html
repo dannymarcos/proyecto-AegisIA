@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finances - Aegis-IA</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/finances.css">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <div class="main-content">
+        <div class="finances-container">
+            <h1 class="text-2xl font-bold mb-6">Your Investment Summary</h1>
+            
+            {% if error %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ error }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Investment Summary -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Investment Details</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-gray-600">Total Invested</p>
+                            <p class="text-2xl font-bold">{{ total_invested }} USDT</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Total Generated</p>
+                            <p class="text-2xl font-bold text-green-600">{{ total_generated }} USDT</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Daily Percentage</p>
+                            <p class="text-xl font-semibold">{{ daily_percentage }}%</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Monthly Percentage</p>
+                            <p class="text-xl font-semibold">{{ monthly_percentage }}%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Investment History -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Investment History</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Date</th>
+                                    <th class="text-right">Amount (USDT)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for investment in investments %}
+                                <tr>
+                                    <td>{{ investment.investment_date.strftime('%Y-%m-%d') }}</td>
+                                    <td class="text-right">{{ investment.amount }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Withdrawals Section -->
+            <div class="mt-8 bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Withdrawal History</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Date</th>
+                                <th class="text-right">Amount (USDT)</th>
+                                <th class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for withdrawal in withdrawals %}
+                            <tr>
+                                <td>{{ withdrawal.withdrawal_date.strftime('%Y-%m-%d') }}</td>
+                                <td class="text-right">{{ withdrawal.amount }}</td>
+                                <td class="text-center">
+                                    <span class="px-2 py-1 rounded text-sm
+                                        {% if withdrawal.status == 'completed' %}
+                                            bg-green-100 text-green-800
+                                        {% elif withdrawal.status == 'pending' %}
+                                            bg-yellow-100 text-yellow-800
+                                        {% else %}
+                                            bg-red-100 text-red-800
+                                        {% endif %}
+                                    ">
+                                        {{ withdrawal.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-8 bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Request Withdrawal</h2>
+                <form id="withdrawal-form" class="space-y-4">
+                    <div>
+                        <label for="withdrawal-amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                        <input type="number" id="withdrawal-amount" name="amount" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                    </div>
+                    <div>
+                        <label for="withdrawal-currency" class="block text-sm font-medium text-gray-700">Currency</label>
+                        <select id="withdrawal-currency" name="currency" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                            <option value="USDT">USDT (TRC20)</option>
+                            <option value="BTC">BTC</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="wallet-address" class="block text-sm font-medium text-gray-700">Wallet Address</label>
+                        <input type="text" id="wallet-address" name="wallet_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                        <p class="mt-1 text-sm text-gray-500">Enter your <span id="wallet-type">USDT (TRC20)</span> wallet address</p>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Request Withdrawal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/finances.js"></script>
+</body>
+</html>

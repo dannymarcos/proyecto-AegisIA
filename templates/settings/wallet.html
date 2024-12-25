@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billetera de Retiro - Aegis-IA</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <div class="main-content">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto mt-8">
+            <h1 class="text-2xl font-bold mb-6 text-gray-800">Configuración de Billetera</h1>
+            
+            <form id="wallet-form" class="space-y-6">
+                <div>
+                    <label for="wallet_address" class="block text-sm font-medium text-gray-700">Dirección de Billetera</label>
+                    <input type="text" id="wallet_address" name="wallet_address" value="{{ user.wallet_address }}" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <p class="mt-1 text-sm text-gray-500">Esta dirección será utilizada para los retiros de fondos.</p>
+                </div>
+                
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-gray-700">Contraseña Actual</label>
+                    <input type="password" id="current_password" name="current_password"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <p class="mt-1 text-sm text-gray-500">Necesaria para confirmar el cambio de billetera.</p>
+                </div>
+                
+                <div class="flex justify-end space-x-4">
+                    <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+            
+            <div id="message" class="mt-4 hidden"></div>
+        </div>
+    </div>
+    <script src="/static/js/wallet.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+Werkzeug
+flask-cors
+flask-static-compress
+flask==3.0.1
+gunicorn
+krakenex
+numpy
+pandas
+python-telegram-bot
+requests
+scikit-learn
+ta
+werkzeug==3.0.1
