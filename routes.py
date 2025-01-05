@@ -270,7 +270,7 @@ def send_withdrawal_email(user, amount, currency, wallet_address):
         logger.error(f"Error sending withdrawal email: {e}")
 
 # Initialize Telegram bot
-bot = telegram.Bot(token='7663917708:AAFFi1E8MPMnrho-VEMEhhIF7hTy34TxbEY')
+bot = telegram.Bot(token='')
 TELEGRAM_BOT_USERNAME = 'Mysoportebot'
 TELEGRAM_BOT_LINK = f"https://t.me/{TELEGRAM_BOT_USERNAME}?start=welcome"
 TELEGRAM_START_COMMAND = '/start'
