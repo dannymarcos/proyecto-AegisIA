@@ -4,7 +4,7 @@ from market_data import get_account_balance
 
 from execute_trade import execute_kraken_trade
 
-from kraken_api import os
+import os
 
 from shared_models import Strategy, logger
 from kraken_api import KrakenFuturesAPI
