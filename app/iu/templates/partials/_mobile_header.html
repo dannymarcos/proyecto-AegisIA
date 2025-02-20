@@ -1,0 +1,41 @@
+<div class="mobile-menu-button-div" id="mobile-menu-button-div">
+    <button id="mobile-menu-button" class="mobile-menu-button rounded-full px-4 py-2 bg-violet-500 hover:bg-violet-600 text-white" aria-controls="mobile-menu" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+</div>
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-interno">
+      <ul>
+        <li><a href="/" class="block px-4 py-2 text-sm  hover:bg-gray-100">{{ get_translated_text('home', session.get('language', 'en')) }}</a></li>
+        <li><a href="/profile" class="block px-4 py-2 text-sm  hover:bg-gray-100">{{ get_translated_text('profile', session.get('language', 'en')) }}</a></li>
+        <li><a href="https://t.me/Mysoportebot?start=welcome" target="_blank" class="block px-4 py-2 text-sm  hover:bg-gray-100">{{ get_translated_text('support', session.get('language', 'en')) }}</a></li>
+        <li><a href="/classes" class="block px-4 py-2 text-sm  hover:bg-gray-100">{{ get_translated_text('teleclasses', session.get('language', 'en')) }}</a></li>
+        <li><a href="/finances" class="block px-4 py-2 text-sm  hover:bg-gray-100">{{ get_translated_text('finances', session.get('language', 'en')) }}</a></li>
+        <li class="relative">
+          <button class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100" onclick="toggleMobileSettings()">
+            {{ get_translated_text('settings', session.get('language', 'en')) }}
+          </button>
+          <div id="mobile-settings-submenu" class="hidden bg-white rounded-lg shadow-xl py-2 border border-gray-200 w-48 absolute right-full top-0">
+            <div class="px-4 py-2">
+              <h3 class="font-semibold mb-2">{{ get_translated_text('language', session.get('language', 'en')) }}</h3>
+              <select class="w-full p-1 border rounded" id="mobile-language-select">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="pt">Português</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
+            <div class="px-4 py-2 border-t">
+              <h3 class="font-semibold mb-2">{{ get_translated_text('security', session.get('language', 'en')) }}</h3>
+              <a href="/settings/password" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('change_password', session.get('language', 'en')) }}</a>
+              <a href="/settings/wallet" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('withdrawal_wallet', session.get('language', 'en')) }}</a>
+              <a href="/settings/2fa" class="block py-1 text-sm text-gray-700 hover:bg-gray-100">{{ get_translated_text('enable_2fa', session.get('language', 'en')) }}</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>

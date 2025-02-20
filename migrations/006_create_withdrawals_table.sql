@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS withdrawals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    amount DECIMAL(15,2) NOT NULL,
+    withdrawal_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'pending',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

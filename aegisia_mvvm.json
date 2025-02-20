@@ -1,0 +1,406 @@
+{
+    "Proyecto aegisIA": {
+      "Version":"0.0.1",
+      "Estructura de Directorios":{
+        "app":{
+            "iu":{
+                "static":{
+                    "css":{
+                        "raiz":[
+                            "charts.css",
+                            "classes.css",
+                            "finances.css",
+                            "styles.css"
+                        ]  
+                    },
+                    "js":{
+                        "raiz":[
+                            "ai_trading.js",
+                            "chart.js",
+                            "classes.js",
+                            "finances.js",
+                            "header.js",
+                            "password.js",
+                            "profile.js",
+                            "wallet.js"
+                        ]
+                    },
+                    "uploads":{
+                        "raiz":[
+                            ".gitkeep"
+                        ]
+                    },
+                    "raiz":[null]
+                },
+                "templates":{
+                    "partials":{
+                        "raiz":[
+                            "_desktop_header.html",
+                            "_header.html",
+                            "_mobile_header.html"
+                        ]
+                    },    
+                    "settings":{                   
+                        "raiz":[
+                            "password.html",
+                            "wallet.html"
+                        ]
+                    },
+                    "raiz":[
+                        "classes.html",
+                        "comfirm_withdrawal.html",
+                        "finances.html",
+                        "home.html",
+                        "profile.html",
+                        "under_construction.html"
+                    ]
+                },
+                "raiz":[
+                    "routes.py"
+                ]
+            },
+            "models":{
+                "raiz":[
+                    "create_db.py",
+                    "shared_models.py"
+                ]
+            },
+            "viewmodels":{
+                "api":{
+                    "raiz":[
+                        "kraken_api.py",
+                        "market_data.py"
+                    ]
+                },
+                "services":{
+                    "raiz":[
+                        "analyze_and_execute_strategy.py",
+                        "trading_logic.py"
+                    ]
+                },
+                "raiz":[null]
+            },
+            "raiz":[
+                "Aplicacion.py",
+                "config.py"
+            ]
+        },
+        "instance":{
+            "raiz":[
+                "your_database.db"
+            ]
+        },
+        "migratios":{
+            "raiz":[
+                "000_example.sql",
+                "001_create_strategy_table.sql",
+                "002_create_users_table.sql",
+                "003_update_users_table.sql",
+                "004_add_phone_to_users.sql",
+                "005_create_investments_table.sql",
+                "006_create_withdrawals_table.sql",
+                "007_create_teleclass_tables.sql",
+                "008_create_teleclass_requests_table.sql",
+                "009_update_withdrawals_table.sql",
+                "010_create_referral_links_table.sql",
+                "011_add_referred_by_to_referral_links.sql"
+            ]
+        },
+        "raiz":[
+            "aegisia_mvvm.json",
+            "docker-compose.yml",
+            "Dockerfile",
+            "main.py",
+            "requirements.txt",
+            "translations.json"
+        ]
+
+      },
+      "Hipergrafo de archivos":{
+        "main.py": {
+            "declara": {
+              "funciones": ["initialize_server","test"],
+              "clases": [null],
+              "Blueprints":[null],
+              "Decoradores":[
+                {"nombre":"@app.route","ruta":"test"}
+              ],
+              "instancias":[
+                {"nombre":"logger","tipo":"logging"}
+              ]
+            },
+            "utiliza": {
+              "backend":[
+                {"ejecutable":["Application"],"origen":"Aplicacion.py","tipo":"clase"},
+                {"ejecutable":["routes_bp"],"origen":"routes.py","tipo":"Blueprint"}
+              ],
+              "frontend":[null]
+            }
+        },
+        "Aplicacion.py":{
+            "declara":{
+                "funciones":[null],
+                "clases":{
+                    "Application":[
+                        "__init__",
+                        "init_db",
+                        "register_blueprint",
+                        "run",
+                        "app_context"
+                    ]
+                },
+                "Blueprints":[null],
+                "Decoradores":[null],
+                "instancias":[null]
+            },
+            "utiliza":{
+              "backend":[
+                {"ejecutable":["db"],"origen":"create_db.py","tipo":"instancia de clase"}
+              ],
+              "frontend":[null]
+            }
+        },
+        "create_db.py":{
+            "declara": {
+                "funciones": [null],
+                "clases": [null],
+                "Blueprints":[null],
+                "Decoradores":[
+                  {"nombre":"","ruta":[null]}
+                ],
+                "instancias":[
+                  {"nombre":"db","tipo":"clase","origen":"SQLAlchemy"}
+                ]
+              },
+              "utiliza": {
+                "backend":[
+                  {"ejecutable":[null],"origen":"null","tipo":"null"}
+                ],
+                "frontend":[null]
+              }
+        },
+        "routes.py": {
+          "declara": {
+            "funciones": [
+                "load_translations",
+                "get_translated_text",
+                "home",
+                "finances_route",
+                "request_withdrawal",
+                "confirm_withdrawal",
+                "send_withdrawal_email",
+                "submit_support_request",
+                "settings_password_route",
+                "profile_route",
+                "update_profile",
+                "settings_route",
+                "classes_route",
+                "settings_2fa_route",
+                "change_language",
+                "stop_ai_trading",
+                "update_trading_mode",
+                "get_balance",
+                "get_cryptos",
+                "upload_class",
+                "generate_access_link",
+                "generate_referral_link",
+                "request_teleclass_access",
+                "settings_wallet_route",
+                "get_current_symbol"
+            ],
+            "clases": [null],
+            "Blueprints":[
+                "route_bp"
+            ],
+            "Decoradores":[
+                {
+                    "nombre":"@routes_bp",
+                    "ruta":[
+                        "home",
+                        "finances",
+                        "request_withdrawal",
+                        "confirm_withdrawal",
+                        "submit_support_request",
+                        "settings/password",
+                        "profile",
+                        "update_profile",
+                        "settings",
+                        "classes",
+                        "settings/2fa",
+                        "change_language",
+                        "stop_ai_trading",
+                        "update_trading_mode",
+                        "get_balance",
+                        "get_cryptos",
+                        "upload_class",
+                        "generate_access_link",
+                        "generate_referral_link",
+                        "request_teleclass_access",
+                        "settings/wallet",
+                        "get_current_symbol"
+
+                        ]
+                    }
+            ],
+            "instancias":[
+                {"nombre":"bot","tipo":"objeto","origen":"telegram.Bot"},
+                {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"}
+            ]
+          },
+          "utiliza": {
+            "backend":[
+              {"ejecutable":["User","ReferralLink","Withdrawal","Investment","Strategy"],"origen":"shared_model.py","tipo":"clase"},
+              {"ejecutable":["KrakenFuturesAPI"],"origen":"kraken_api.py","tipo":"clase"},
+              {"ejecutable":["cancel_order","get_account_balance","execute_kraken_trade","fetch_historical_data"],"origen":"market_data.py","tipo":"funcion"},
+              {"ejecutable":["evaluate_strategy_performance","start_market_monitor","stop_market_monitor"],"origen":"trading_logic.py","tipo":"funcion"},
+              {"ejecutable":["db"],"origen":"Aplicacion","tipo":"instancia de clase"}       
+            ],
+            "frontend":[
+              {"template":["home.html"],"rutas":["home"],"scripts":"charts.js"},
+              {"template":["finances.html"],"rutas":["finances","confirm_withdrawal"],"scripts":"finances.js"},
+              {"template":["confirm_withdrawal.html"],"rutas":["confirm_withdrawal"],"scripts":""},
+              {"template":["password.html"],"rutas":["settings/password"],"scripts":"password.js"},
+              {"template":["profile.html"],"rutas":["profile"],"scripts":"profile.js"},
+              {"template":["under_construction.html"],"rutas":["settings","settings/2fa"],"scripts":""},
+              {"template":["classes.html"],"rutas":["classes"],"scripts":"classes.js"},
+              {"template":["wallet.html"],"rutas":["setting/wallet"],"scripts":"wallets.js"}
+            ]
+          }
+        },
+        "shared_models.py": {
+          "declara": {
+            "funciones": [null],
+            "clases": {
+              "User": ["__repr__"],
+              "ReferralLink": ["__repr__"],
+              "Withdrawal": ["__repr__"],
+              "Investment": ["__repr__"],
+              "Strategy":["__repr__"]
+            },
+            "Blueprints":[null],
+            "Decoradores":[null],
+            "instancias":[
+                {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"}
+            ]
+          },
+          "utiliza": {
+            "backend":[
+              {"funcion": "db", "origen": "create_db.py","tipo":"instancia de clase"}
+            ],
+            "frontend":[null]
+          }
+        },
+        "kraken_api.py": {
+            "declara": {
+              "funciones": ["execute_trade"],
+              "clases": {
+                  "KrakenFuturesAPI": [
+                    "__init__", 
+                    "get_balance", 
+                    "place_order"
+                ] 
+              },
+              "Blueprints":["execute_trade_bp"],
+              "Decoradores":[
+                {
+                    "nombre":"@execute_trade_bp.route",
+                    "ruta":[
+                        "execute_trade"
+                    ]
+                }
+            ],
+              "instancias":[
+                {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"}
+              ]
+            },
+            "utiliza": {
+              "backend":[
+                {"ejecutable": ["get_account_balance","execute_kraken_trade"], "origen": "market_data.py"}
+              ],
+              "frontend":[null]
+            }
+        },
+        "market_data.py": {
+            "declara": {
+              "funciones": [
+                  "fetch_historical_data",
+                  "get_kraken_signature",
+                  "get_account_balance",
+                  "cancel_order",
+                  "execute_kraken_trade"
+              ],
+              "clases": [null],
+              "Blueprints":[null],
+              "Decoradores":[null],
+              "instancias":[
+                {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"}
+              ]
+            },
+            "utiliza": {
+              "backend":[null],
+              "frontend":[null]
+            }
+          },
+        "trading_logic.py": {
+            "declara": {
+              "funciones": [
+                  "initialize", 
+                  "evaluate_strategy_performance", 
+                  "start_market_monitor", 
+                  "stop_market_monitor",
+                  "detect_candlestick_patterns",
+                  "calculate_stop_loss_take_profit",
+                  "monitor_market",
+                  "set_trading_mode"
+  
+              ],
+              "clases": {},
+              "Blueprints":[null],
+              "Decoradores":[null],
+              "instancias":[
+                {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"},
+                {"nombre":"market_data_queue","tipo":"instancia de clase","origen":"Queue"}
+              ]
+            },
+            "utiliza": {
+              "backend":[
+                {"ejecutable": ["get_account_balance","fetch_historical_data", "execute_kraken_trade"], "origen": "market_data.py", "tipo":"funcion"},
+                {"ejecutable":["Strategy"],"origen":"shared_models.py","tipo":"clase"},
+                {"ejecutable":["KrakenFururesAPI"],"origen":"Kraken_api.py","tipo":"clase"}
+              ],
+              "frontend":[null]
+            }
+        },
+        "analyze_and_execute_strategy.py":{
+          "declara":{
+            "funciones":[
+              "analyze_and_execute_strategy",
+              "initialize_app"
+            ],
+            "clases":{},
+            "Blueprints":[
+              "analyze_and_execute_strategy_bp"
+            ],
+            "Decoradores":[
+              {
+                "nombre":"@analyze_and_execute_strategy_bp",
+                "ruta":[
+                  "analyze_and_execute_strategy"
+                ]
+              }
+            ],
+            "instancias":[
+              {"nombre":"logger","tipo":"objeto","origen":"logging.getLogger"}
+            ]
+          },
+          "utiliza":{
+            "backend":[
+              {"ejecutable":["fetch_historical_data"],"origen":"market_data.py","tipo":"funcion"},
+              {"ejecutable":["evaluate_strategy_performance"],"origen":"trading_logic.py","tipo":"funcion"}
+            ],
+            "frontend":[null]
+          }
+        }
+      }
+    }
+}

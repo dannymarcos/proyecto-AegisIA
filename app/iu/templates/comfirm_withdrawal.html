@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Withdrawal - Aegis-IA</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <div class="main-content">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto mt-8">
+            <h1 class="text-2xl font-bold mb-6">Confirm Withdrawal Details</h1>
+            
+            <form action="mailto:aegisiaapp@gmail.com" method="GET" enctype="text/plain" class="space-y-6">
+                <input type="hidden" name="subject" value="Withdrawal Request">
+                
+                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                    <h2 class="text-lg font-semibold mb-4">Withdrawal Information</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600">Full Name</p>
+                            <p class="font-medium">{{ user.full_name }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Phone Number</p>
+                            <p class="font-medium">{{ user.phone }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Amount</p>
+                            <p class="font-medium">{{ amount }} {{ currency }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Wallet Address</p>
+                            <p class="font-medium break-all">{{ wallet_address }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="hidden" name="body" value="
+Withdrawal Request Details:
+
+Full Name: {{ user.full_name }}
+Phone Number: {{ user.phone }}
+Amount: {{ amount }} {{ currency }}
+Wallet Address: {{ wallet_address }}
+">
+                
+                <div class="flex justify-between">
+                    <a href="{{ url_for('routes.finances_route') }}" 
+                       class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                        Send Withdrawal Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

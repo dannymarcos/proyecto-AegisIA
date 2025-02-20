@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="/static/css/chart.css" />
+    <title>Aegis-IA</title>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+    </head>
+  <body>
+    
+    {% include 'partials/_header.html' %}
+    {% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline">{{ error }}</span>
+    </div>
+    {% endif %}
+
+
+    <div class ="content-body">
+
+      <div class="main-content">
+
+        <div class="flex justify-between items-start p-4">
+          <div class="flex space-x-4">
+  
+            <div class="relative">
+              <button id="investment-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Inversion
+              </button>
+            </div>
+  
+            <div class="relative">
+              <button id="generate-referral-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Generar Link de Referido
+              </button>
+              <script src="/static/js/classes.js"></script>
+            </div>
+          </div>
+          
+          <div class="text-right">
+            <p class="text-lg spot-balance">
+              <strong>Spot Balances:</strong><br>
+              USDT: $<span id="usdt-balance">{{ balances.usdt if balances else 'Loading...' }}</span><br>
+              USD: $<span id="usd-balance">{{ balances.usd if balances else 'Loading...' }}</span><br>
+              BTC: <span id="btc-balance">{{ balances.btc if balances else 'Loading...' }}</span>
+            </p>
+            <p class="text-lg futures-balance hidden"><strong>Futures Balance (USDT/USD/BTC):</strong> <span id="kraken-futures-balance">Loading...</span></p>
+          </div>
+        </div>
+  
+        <!-- <div id="investment-modal" class="boton">
+          <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+              <div class="items-center px-4 py-3">
+                <button id="close-modal" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+  
+  
+        <div class="hero-section text-center py-4">
+          <h1 class="text-4xl font-bold mb-2">Welcome to Aegis-IA</h1>
+          <p class="text-lg mb-2">Leverage the power of AI for smarter trading decisions.</p>
+        </div>
+        <div class="crypto-section bg-gray-100 p-4 rounded mb-8">
+          <h2 class="text-2xl font-bold mb-4">Cryptocurrencies</h2>
+          <div class="flex items-center mb-4">
+            <input type="submit" id="fetchCryptos" value="Buscar cryptos" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">
+            <div class="relative flex-grow">
+              <input type="text" id="crypto-search" class="w-full pl-10 pr-2 py-2 border rounded" placeholder="Search cryptos...">
+            </div>
+          </div>
+          <ul id="crypto-list" class="list-none"></ul>
+         
+        </div>
+        <div id="tradingview_chart" class="w-full h-96 mb-4"></div>
+        <!-- Manual Trading Controls -->
+        <div id="manual-trading-controls" class="hidden">
+          <div class="bg-gray-100 p-4 rounded mb-4">
+            <h3 class="text-lg font-bold mb-2">Manual Trading - <span id="manual-trade-symbol">-</span></h3>
+            <div class="trade-settings bg-white p-4 rounded mb-4">
+              <h4 class="text-lg font-semibold mb-4">Manual Trading Configuration</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="trade-size">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Manual Trade Amount</label>
+                  <select id="manual-trade-size-type" class="w-full p-2 border rounded">
+                    <option value="fixed">Fixed Amount</option>
+                    <option value="percentage">Balance Percentage</option>
+                  </select>
+                  <input type="number" id="manual-trade-amount" class="w-full mt-2 p-2 border rounded" placeholder="Enter amount" step="0.00000001">
+                </div>
+                <div class="order-type">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Order Type</label>
+                  <select id="manual-order-type" class="w-full p-2 border rounded">
+                    <option value="market">Market Order</option>
+                    <option value="limit">Limit Order</option>
+                  </select>
+                  <input type="number" id="manual-limit-price" class="w-full mt-2 p-2 border rounded hidden" placeholder="Limit Price" step="0.01">
+                </div>
+              </div>
+              <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Take Profit</label>
+                <input type="number" id="manual-take-profit" class="w-full p-2 border rounded" placeholder="Take Profit Price">
+              </div>
+              <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Stop Loss</label>
+                <input type="number" id="manual-stop-loss" class="w-full p-2 border rounded" placeholder="Stop Loss Price">
+              </div>
+            </div>
+            <div class="flex justify-center space-x-4">
+              <button class="bg-green-500 text-white px-4 py-2 rounded" onclick="executeManualTrade('buy')">Buy</button>
+              <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="executeManualTrade('sell')">Sell</button>
+              <button class="bg-yellow-500 text-white px-4 py-2 rounded" onclick="executeManualTrade('stop')">Stop</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Trading Settings -->
+        <div id="ai-trading-controls" class="hidden trade-settings bg-gray-100 p-4 rounded mb-8">
+          <h2 class="text-2xl font-bold mb-4">Trading Configuration</h2>
+          <div id="leverage-selector" class="hidden mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Leverage</label>
+            <select id="leverage-value" class="w-full p-2 border rounded">
+              <option value="2">2x</option>
+              <option value="3">3x</option>
+              <option value="5">5x</option>
+              <option value="10">10x</option>
+              <option value="20">20x</option>
+              <option value="50">50x</option>
+            </select>
+            <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Take Profit</label>
+              <input type="number" id="take-profit" class="w-full p-2 border rounded" placeholder="Take Profit Price">
+            </div>
+            <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Stop Loss</label>
+              <input type="number" id="stop-loss" class="w-full p-2 border rounded" placeholder="Stop Loss Price">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="trade-size">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Trade Amount</label>
+              <select id="trade-size-type" class="w-full p-2 border rounded">
+                <option value="fixed">Fixed Amount</option>
+                <option value="percentage">Balance Percentage</option>
+              </select>
+              <input type="number" id="trade-size-value" class="w-full mt-2 p-2 border rounded" placeholder="Enter amount" step="0.00000001">
+            </div>
+            <div class="order-type">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Order Type</label>
+              <select id="order-type" class="w-full p-2 border rounded">
+                <option value="market">Market Order</option>
+                <option value="limit">Limit Order</option>
+              </select>
+              <input type="number" id="limit-price" class="w-full mt-2 p-2 border rounded hidden" placeholder="Limit Price" step="0.01">
+            </div>
+          </div>
+        </div>
+  
+        <div class="chat-section bg-gray-100 p-4 rounded mb-8">
+          <h2 class="text-2xl font-bold mb-4">Chat con IA</h2>
+          <div id="chat-messages" class="bg-white p-4 rounded h-64 overflow-y-auto mb-4"></div>
+          <div class="flex">
+            <input type="text" id="chat-input" class="flex-grow mr-2 p-2 border rounded" placeholder="Escribe tu estrategia...">
+            <button id="send-strategy" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar Estrategia</button>
+          </div>
+        </div>
+  
+        <div class="flex flex-col items-center space-y-4 mb-4">
+          <div class="trading-controls space-y-4">
+            <button id="trading-mode-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48">Trade in Spot</button>
+            <button id="strategy-mode-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-48">
+              Using All Strategies
+            </button>
+            <button id="ai-trading-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-48">
+              Authorize AI Trading
+            </button>
+          </div>
+        </div>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="ai-trading-section bg-gray-100 p-4 rounded mb-8">
+            <h2 class="text-2xl font-bold mb-4">AI Trading Info</h2>
+            <p><strong style="color: #000000;">Start Price:</strong> <span id="start-price" style="color: #0000FF;">-</span></p>
+            <p><strong style="color: #000000;">End Price:</strong> <span id="end-price" style="color: #0000FF;">-</span></p>
+            <p><strong style="color: #000000;">Strategy:</strong> <span id="strategy" style="color: #0000FF;">-</span></p>
+            <p><strong style="color: #000000;">Profit/Loss:</strong> <span id="profit-loss">-</span></p>
+            <p><strong style="color: #000000;">AI Action:</strong> <span id="ai-action">-</span></p>
+          </div>
+          <div class="market-analysis-section bg-gray-100 p-4 rounded mb-8">
+            <h2 class="text-2xl font-bold mb-4">Market Analysis</h2>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p><strong style="color: #000000;">Current Price:</strong> <span id="current-price">-</span></p>
+                <p><strong style="color: #000000;">Price Change:</strong> <span id="price-change">-</span></p>
+                <p><strong style="color: #000000;">RSI:</strong> <span id="rsi-value">-</span></p>
+                <p><strong style="color: #000000;">MACD:</strong> <span id="macd-value">-</span></p>
+              </div>
+              <div>
+                <p><strong style="color: #000000;">Stochastic:</strong> <span id="stochastic-value">-</span></p>
+                <p><strong style="color: #000000;">Stop Loss:</strong> <span id="stop-loss-value">-</span></p>
+                <p><strong style="color: #000000;">Take Profit:</strong> <span id="take-profit-value">-</span></p>
+                <p><strong style="color: #000000;">Patterns:</strong> <span id="patterns-value">-</span></p>
+                <p><strong style="color: #000000;">Signals:</strong> <span id="signals-value">-</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="placeholder-area bg-gray-100 p-4 rounded">
+          <h2 class="text-2xl font-bold mb-2">Future Features</h2>
+          <ul class="list-disc list-inside">
+            <li>Advanced strategy management and analysis</li>
+            <li>Real-time market data visualization</li>
+          </ul>
+        </div>
+      
+      <!-- <script type="text/javascript" src="/static/js/chart.js" defer></script> -->
+      <script src="/static/index_dom.js" type="module"></script>
+      <!-- <script src="/static/js/ai_trading.js"></script> -->
+      
+    </div>
+ 
+  </body>
+</html>

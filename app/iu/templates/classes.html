@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tele Classes - Aegis-IA</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/classes.css">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <div class="main-content">
+        <div class="classes-container">
+            <h1 class="text-2xl font-bold mb-6">Tele Classes</h1>
+            
+            {% if error %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ error }}</span>
+            </div>
+            {% endif %}
+            
+            {% if is_admin %}
+            <div class="admin-controls bg-gray-100 p-4 rounded mb-6">
+                <h2 class="text-xl font-semibold mb-4">Admin Controls</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="font-medium mb-2">Upload Recorded Class</h3>
+                        <form id="upload-class-form" class="space-y-4">
+                            <input type="text" id="class-title" name="title" placeholder="Class Title" 
+                                   class="w-full p-2 border rounded">
+                            <textarea id="class-description" name="description" placeholder="Class Description"
+                                     class="w-full p-2 border rounded" rows="3"></textarea>
+                            <input type="file" id="class-video" name="video" accept="video/*"
+                                   class="w-full p-2 border rounded">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Upload Class
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <h3 class="font-medium mb-2">Generate Access Link</h3>
+                        <form id="generate-link-form" class="space-y-4">
+                            <input type="text" id="link-description" name="description" placeholder="Link Description"
+                                   class="w-full p-2 border rounded">
+                            <input type="datetime-local" id="link-expiry" name="expiry"
+                                   class="w-full p-2 border rounded">
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                Generate Link
+                            </button>
+                        </form>
+                        <div id="generated-link" class="mt-4 hidden">
+                            <p class="font-medium">Generated Link:</p>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="access-link" readonly
+                                       class="w-full p-2 border rounded bg-gray-50">
+                                <button onclick="copyLink()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if not is_admin %}
+            <div class="access-form bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+                <h2 class="text-xl font-semibold mb-4">Request Teleclass Access</h2>
+                <form id="request-access-form" class="space-y-4">
+                    <div>
+                        <label for="request-reason" class="block text-sm font-medium text-gray-700">Why would you like to join our teleclasses?</label>
+                        <textarea id="request-reason" name="reason" rows="4"
+                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            
+            <div id="classes-list" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Classes will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/classes.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Play</title>
+    <script defer src="static/js/form.js"></script>
+</head>
+<body>
+    <h2>Register Play</h2>
+    <form id="playForm">
+        <label for="symbol">Symbol:</label>
+        <input type="text" id="symbol" name="symbol" readonly><br><br>
+        <label for="value">Value:</label>
+        <input type="number" id="value" name="value" required><br><br>
+        <input type="hidden" id="user_id" name="user_id" value="1"> <!-- Asigna el ID de usuario -->
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
+
